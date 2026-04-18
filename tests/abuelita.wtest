@@ -1,0 +1,13 @@
+import src.abuelita.*
+
+describe "Abuelita | Verificar peso" {
+    test "Given: Abuelita | When: consultamos peso() | Then: debería retornar 50" {
+        assert.equals(50, abuelita.peso())
+    }
+}
+
+describe "Abuelita | Verificar peso total" {
+    test "Given: Abuelita | When: consultamos peso() | Then: debería retornar 50" {
+        assert.equals(50, abuelita.peso())
+    }
+}

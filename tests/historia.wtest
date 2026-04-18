@@ -1,0 +1,86 @@
+import src.historia.*
+import src.feroz.*
+import src.caperucita.*
+import src.abuelita.*
+import src.cazador.*
+
+describe "Historia | Verificar historiaCompleta" {
+    test "Given: estado inicial | When: ejecutamos historiaCompleta() | Then: Feroz debería haber comido a abuelita y caperucita" {
+        historia.historiaCompleta()
+        // Feroz corre 2 veces (-2), come abuelita (+5), come caperucita habiendo perdido una manzana (+6.1)
+        // Peso esperado: 10 - 2 + 5 + 6.1 = 19.1
+        assert.equals(19.1, feroz.peso())
+    }
+    
+    test "Given: estado inicial | When: ejecutamos historiaCompleta() | Then: Caperucita debería haber perdido 1 manzana" {
+        historia.historiaCompleta()
+        assert.equals(5, caperucita.cantidadDeFrutasRecolectadas())
+    }
+}
+
+describe "Historia | Final 1: Feroz come al cazador" {
+    test "Given: estado inicial | When: ejecutamos finalFerozComeCazador() | Then: Feroz debería estar saludable" {
+        historia.finalFerozComeCazador()
+        // Feroz corre 2 veces (-2), come abuelita (+5), come caperucita habiendo perdido una manzana (+6.1), come cazador (+10)
+        // Peso esperado: 10 - 2 + 5 + 6.1 + 10 = 29.1
+        assert.that(feroz.estaSaludable())
+    }
+    
+    test "Given: estado inicial | When: ejecutamos finalFerozComeCazador() | Then: peso final debería ser 29.12" {
+        historia.finalFerozComeCazador()
+        assert.equals(29.1, feroz.peso())
+    }
+}
+
+describe "Historia | Final 2: Cazador vence (Feroz corre para escapar)" {
+    test "Given: estado inicial | When: ejecutamos finalCazadorVence() | Then: Feroz debería NO estar saludable" {
+        historia.finalCazadorVence()
+        // Feroz corre 5 veces (-5), come abuelita (+5), come caperucita habiendo perdido una manzana (+6.1)
+        // Peso esperado: 10 - 5 + 5 + 6.1 = 16.1
+        assert.notThat(feroz.estaSaludable())
+    }
+    
+    test "Given: estado inicial | When: ejecutamos finalCazadorVence() | Then: peso final debería ser 16.12" {
+        historia.finalCazadorVence()
+        assert.equals(16.1, feroz.peso())
+    }
+}
+
+describe "Historia | Final 3: Cazador provoca crisis" {
+    test "Given: estado inicial | When: ejecutamos finalFerozSufreCrisis() | Then: Feroz debería volver a peso inicial" {
+        historia.finalFerozSufreCrisis()
+        assert.equals(10, feroz.peso())
+    }
+    
+    test "Given: estado inicial | When: ejecutamos finalFerozSufreCrisis() | Then: Feroz debería NO estar saludable" {
+        historia.finalFerozSufreCrisis()
+        assert.notThat(feroz.estaSaludable())
+    }
+}
+
+describe "Historia | Final 4: Cazador huye" {
+    test "Given: estado inicial | When: ejecutamos finalCazadorHuye() | Then: Feroz debería estar saludable" {
+        historia.finalCazadorHuye()
+        // Feroz corre 2 veces (-2), come abuelita (+5), come caperucita habiendo perdido una manzana (+6.1)
+        // Peso esperado: 10 - 2 + 5 + 6.1 = 19.1
+        assert.notThat(feroz.estaSaludable())
+    }
+    
+    test "Given: estado inicial | When: ejecutamos finalCazadorHuye() | Then: peso final debería ser 19.12" {
+        historia.finalCazadorHuye()
+        assert.equals(19.1, feroz.peso())
+    }
+}
+
+describe "Historia | Métodos de consulta" {
+    test "Given: estado inicial | When: ejecutamos finalFerozComeCazador() y consultamos verificarSaludFeroz() | Then: debería retornar true" {
+        historia.finalFerozComeCazador()
+        assert.that(historia.verificarSaludFeroz())
+    }
+    
+    test "Given: estado inicial | When: ejecutamos finalCazadorVence() y consultamos pesoFinalFeroz() | Then: debería retornar 16.12" {
+        historia.finalCazadorVence()
+        assert.equals(16.1, historia.pesoFinalFeroz())
+    }
+}
+

@@ -1,0 +1,73 @@
+import src.feroz.*
+
+describe "Feroz | Verificar estado inicial" {
+    test "Given: Feroz | When: consultamos peso() | Then: debería retornar 10" {
+        assert.equals(10, feroz.peso())
+    }
+    test "Given: Feroz con peso inicial | When: consultamos estaSaludable() | Then: debería retornar false" {
+        feroz.sufreCrisis()
+        assert.notThat(feroz.estaSaludable())
+    }
+}
+
+describe "Feroz | Verificar si está saludable" {
+    test "Given: Feroz con peso 50 | When: consultamos estaSaludable() | Then: debería retornar true" {
+        feroz.sufreCrisis()
+        feroz.comer(object { method peso() = 400 })
+        assert.that(feroz.estaSaludable())
+    }
+    test "Given: Feroz con peso 100 | When: consultamos estaSaludable() | Then: debería retornar true" {
+        feroz.sufreCrisis()
+        feroz.comer(object { method peso() = 900 })
+        assert.that(feroz.estaSaludable())
+    }
+}
+
+describe "Feroz | Verificar si NO está saludable" {
+    test "Given: Feroz con peso 10 | When: consultamos estaSaludable() | Then: debería retornar false" {
+        feroz.sufreCrisis()
+        assert.notThat(feroz.estaSaludable())
+    }
+    test "Given: Feroz con peso 200 | When: consultamos estaSaludable() | Then: debería retornar false" {
+        feroz.sufreCrisis()
+        feroz.comer(object { method peso() = 1900 })
+        assert.notThat(feroz.estaSaludable())
+    }
+}
+
+describe "Feroz | Verificar comportamiento al correr" {
+    test "Given: Feroz con peso 50 | When: corre() | Then: debería perder 1 unidad de peso" {
+        feroz.sufreCrisis()
+        feroz.comer(object { method peso() = 400 })
+        const pesoAntes = feroz.peso()
+        feroz.correr()
+        assert.equals(pesoAntes - 1, feroz.peso())
+    }
+    test "Given: Feroz con peso 0 | When: corre() | Then: el peso no debería ser negativo" {
+        feroz.sufreCrisis()
+        (1..12).forEach({ i => feroz.correr() })
+        assert.equals(0, feroz.peso())
+    }
+}
+
+describe "Feroz | Verificar comportamiento al comer" {
+    test "Given: Feroz con peso 10 | When: come una presa de peso 100 | Then: debería aumentar 10 unidades" {
+        feroz.sufreCrisis()
+        feroz.comer(object { method peso() = 100 })
+        assert.equals(20, feroz.peso())
+    }
+    test "Given: Feroz con peso 10 | When: come una presa de peso 200 | Then: debería aumentar 20 unidades" {
+        feroz.sufreCrisis()
+        feroz.comer(object { method peso() = 200 })
+        assert.equals(30, feroz.peso())
+    }
+}
+
+describe "Feroz | Verificar comportamiento en crisis" {
+    test "Given: Feroz con peso 100 | When: sufre crisis | Then: debería volver a peso inicial 10" {
+        feroz.sufreCrisis()
+        feroz.comer(object { method peso() = 900 })
+        feroz.sufreCrisis()
+        assert.equals(10, feroz.peso())
+    }
+}

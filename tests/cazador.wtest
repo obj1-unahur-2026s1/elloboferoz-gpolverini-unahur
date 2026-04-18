@@ -1,0 +1,20 @@
+import src.cazador.*
+
+describe "Cazador | Verificar peso" {
+    test "Given: Cazador | When: consultamos peso() | Then: debería retornar 100" {
+        assert.equals(100, cazador.peso())
+    }
+}
+
+describe "Cazador | Verificar peso total" {
+    test "Given: Cazador | When: consultamos peso() | Then: debería retornar 100" {
+        assert.equals(100, cazador.peso())
+    }
+}
+
+describe "Cazador | Verificar método huir" {
+    test "Given: Cazador | When: ejecutamos huir() | Then: no debería lanzar error" {
+        cazador.huir()
+        assert.that(true)
+    }
+}

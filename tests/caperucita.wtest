@@ -1,0 +1,59 @@
+import src.caperucita.*
+
+describe "Caperucita | Verificar peso base" {
+    test "Given: Caperucita | When: consultamos pesoCaperucita() | Then: debería retornar 60" {
+        assert.equals(60, caperucita.pesoCaperucita())
+    }
+}
+
+describe "Caperucita | Verificar manzanas iniciales" {
+    test "Given: Caperucita | When: consultamos cantidadDeFrutasRecolectadas | Then: debería tener 6 manzanas" {
+        assert.equals(6, caperucita.cantidadDeFrutasRecolectadas())
+    }
+}
+
+describe "Manzana | Verificar peso unitario" {
+    test "Given: una manzana | When: consultamos peso() | Then: debería retornar 0.2" {
+        assert.equals(0.2, manzana.peso())
+    }
+}
+
+describe "Caperucita | Verificar peso total con manzanas" {
+    test "Given: Caperucita con 6 manzanas | When: consultamos peso() | Then: debería retornar 61.2" {
+        assert.equals(61.2, caperucita.peso())
+    }
+    test "Given: Caperucita con 0 manzanas | When: consultamos peso() | Then: debería retornar 60" {
+        caperucita.pierdeFruta(6)
+        assert.equals(60, caperucita.peso())
+    }
+}
+
+describe "Caperucita | Verificar pérdida de manzanas" {
+    test "Given: Caperucita con 6 manzanas | When: pierde 1 manzana | Then: debería tener 5 manzanas" {
+        caperucita.pierdeFruta(1)
+        assert.equals(5, caperucita.cantidadDeFrutasRecolectadas())
+    }
+    test "Given: Caperucita con 6 manzanas | When: pierde 6 manzanas | Then: no debería tener manzanas" {
+        caperucita.pierdeFruta(6)
+        assert.equals(0, caperucita.cantidadDeFrutasRecolectadas())
+    }
+    test "Given: Caperucita con 6 manzanas | When: pierde 7 manzanas | Then: no debería tener manzanas" {
+        caperucita.pierdeFruta(7)
+        assert.equals(0, caperucita.cantidadDeFrutasRecolectadas())
+    }
+}
+
+describe "Caperucita | Recoger frutas" {
+    test "Given: Caperucita con 0 manzanas | When: recoge 3 manzanas | Then: debería tener 3 manzanas" {
+        caperucita.pierdeFruta(6)
+        assert.equals(0, caperucita.cantidadDeFrutasRecolectadas())
+        caperucita.recogeFruta(3)
+        assert.equals(3, caperucita.cantidadDeFrutasRecolectadas())
+    }
+    test "Given: Caperucita con 2 manzanas | When: recoge 4 manzanas | Then: debería tener 6 manzanas" {
+        caperucita.pierdeFruta(4)
+        assert.equals(2, caperucita.cantidadDeFrutasRecolectadas())
+        caperucita.recogeFruta(4)
+        assert.equals(6, caperucita.cantidadDeFrutasRecolectadas())
+    }
+}
